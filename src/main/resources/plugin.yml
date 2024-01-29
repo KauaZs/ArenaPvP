@@ -1,0 +1,14 @@
+name: Pvp
+version: '${project.version}'
+main: org.kauazs.Pvp
+commands:
+  setup:
+    description: Setup arena pvp
+    aliases:
+      - setup-arena
+    permission: setup.arena
+    permission-message: Voce nao tem permissao para utilizar este comando
+  set:
+    description: Seta informaçoes do lobby
+    permission: setup.spawn
+    permission-message: Voce nao tem permissao para utilizar este comando
