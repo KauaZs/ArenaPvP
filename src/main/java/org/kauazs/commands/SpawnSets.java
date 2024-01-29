@@ -8,6 +8,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.kauazs.Pvp;
+import org.kauazs.utils.Colorize;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +22,9 @@ public class SpawnSets implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player)) return true;
-        if(args.length == 0) return true;
+        if(args.length == 0) {
+            Colorize.sendMessage(sender, "&c/set [spawn|]");
+        }
 
         Player player = (Player) sender;
 
