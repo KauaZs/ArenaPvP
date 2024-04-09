@@ -4,10 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.kauazs.commands.PlayArena;
 import org.kauazs.commands.SetupArena;
 import org.kauazs.commands.SpawnSets;
 import org.kauazs.listeners.PlayerInteract;
 import org.kauazs.listeners.PlayerJoin;
+import org.kauazs.managers.Arena;
 import org.kauazs.managers.ArenaSetupManager;
 
 import java.util.HashMap;
@@ -20,11 +22,22 @@ public final class Pvp extends JavaPlugin {
     private static ArenaSetupManager arenaManager;
 
     @Setter @Getter
+    private static HashMap<String, Arena> arenas;
+
+    @Setter @Getter
     private static Pvp instance;
     @Override
     public void onEnable() {
         setInstance(this);
-        setArenaManager(new ArenaSetupManager(new HashMap<>()));
+        ArenaSetupManager arenas = new ArenaSetupManager(new HashMap<>());
+        arenas.loadArenasFromConfig();
+        setArenaManager(arenas);
+
+        arenas.loadArenasFromConfig();
+        setArenas(arenas.getArenas());
+
+        System.out.println(arenas.getArenas());
+       getCommand("play").setExecutor(new PlayArena());
        getCommand("setup").setExecutor(new SetupArena());
        getCommand("set").setExecutor(new SpawnSets());
 

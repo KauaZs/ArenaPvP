@@ -25,11 +25,11 @@ public class PlayerJoin implements Listener {
         event.setJoinMessage(ChatColor.GREEN + player.getName() + Colorize.format(" &eentrou no servidor"));
 
         String spawn = config.getString("lobby.location");
+        if (spawn == null) return;
         Location local = LocationUtils.getFromLocation(player.getWorld(), spawn);
 
         player.teleport(local);
         player.setGameMode(GameMode.ADVENTURE);
 
     }
-
 }

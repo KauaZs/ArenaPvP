@@ -1,26 +1,31 @@
 package org.kauazs.managers;
-
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.bukkit.Location;
-import org.kauazs.arena.ArenaState;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.UUID;
 
+import static org.kauazs.utils.Colorize.sendMessage;
+
 @Data
-@AllArgsConstructor
 public class Arena {
     private String arenaId;
-    private Location spawnOne;
-    private Location spawnTwo;
+    private String spawnOne;
+    private String spawnTwo;
 
-    private ArenaState arenaState;
+    private ArenaStates arenaState;
     private List<UUID> players;
 
-    public void setState(ArenaState arenaState) {
-        if(this.arenaState.getClass() == arenaState.getClass()) return;
-
-        this.arenaState = arenaState;
+    public void addPlayer(Player p) {
+        if (players.size() < 2) {
+            sendMessage(p, "$cEssa cage esta lotada");
+        } else {
+            players.add(p.getUniqueId());
+        }
     }
+
+    public void start() {
+
+    }
+
 }
