@@ -13,6 +13,7 @@ import org.kauazs.managers.Arena;
 import org.kauazs.managers.ArenaSetupManager;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 
 public final class Pvp extends JavaPlugin {
@@ -20,6 +21,8 @@ public final class Pvp extends JavaPlugin {
 
     @Setter @Getter
     private static ArenaSetupManager arenaManager;
+
+    public static HashMap<UUID, Arena> playersIn;
 
     @Setter @Getter
     private static HashMap<String, Arena> arenas;

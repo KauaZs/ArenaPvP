@@ -20,10 +20,12 @@ public class PlayerInteract implements Listener {
 
     @EventHandler
     public void onPlayerInteract (PlayerInteractEvent event) {
+
         if(!(event.hasItem()) || event.getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)) return;
 
         Player player = event.getPlayer();
         ArenaSetupManager arena = Pvp.getArenaManager();
+        if (arena.getId(player) == null) return;
 
         if(event.getItem().getType().equals(Material.STONE_SWORD)) {
             Integer i = arena.getId(player);

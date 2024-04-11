@@ -29,8 +29,8 @@ public class PlayArena implements CommandExecutor {
         Location pos1 = getFromLocation(p.getWorld(), arena.getSpawnOne());
         p.teleport(pos1);
 
-       sendMessage(p, "&aEnviando voce para " + arena.getArenaId() + "...");
-
+        sendMessage(p, "&aEnviando voce para " + arena.getArenaId() + "...");
+        arena.addPlayer(p);
         return true;
     }
 }
