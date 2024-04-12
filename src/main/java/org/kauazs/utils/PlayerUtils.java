@@ -74,6 +74,11 @@ public class PlayerUtils {
             Location local = LocationUtils.getFromLocation(spawn);
             p.teleport(local);
         }
+
+        p.getInventory().setHelmet(new ItemStack(Material.AIR, 1));
+        p.getInventory().setChestplate(new ItemStack(Material.AIR, 1));
+        p.getInventory().setLeggings(new ItemStack(Material.AIR, 1));
+        p.getInventory().setBoots(new ItemStack(Material.AIR, 1));
         p.getInventory().clear();
         p.setHealth(20.0);
 
