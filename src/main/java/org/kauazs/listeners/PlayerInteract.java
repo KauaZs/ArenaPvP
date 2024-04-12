@@ -20,12 +20,12 @@ public class PlayerInteract implements Listener {
 
     @EventHandler
     public void onPlayerInteract (PlayerInteractEvent event) {
-
-        if(!(event.hasItem()) || event.getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)) return;
-
         Player player = event.getPlayer();
         ArenaSetupManager arena = Pvp.getArenaManager();
         if (arena.getId(player) == null) return;
+
+        if(!(event.hasItem()) || event.getAction().equals(Action.LEFT_CLICK_AIR) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)) return;
+
 
         if(event.getItem().getType().equals(Material.STONE_SWORD)) {
             Integer i = arena.getId(player);
@@ -54,6 +54,8 @@ public class PlayerInteract implements Listener {
 
             player.getInventory().clear();
             player.sendMessage(ChatColor.BOLD + "" + ChatColor.YELLOW + "Arena:" + ChatColor.RESET + " Você configurou a arena com " + ChatColor.GREEN + "sucesso!");
+            arena.loadArenasFromConfig();
+            arena.removeSetup(player);
             player.playSound(player.getLocation(), Sound.LEVEL_UP, 100, 0);
         }
 

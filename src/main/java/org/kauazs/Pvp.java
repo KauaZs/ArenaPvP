@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.kauazs.commands.PlayArena;
 import org.kauazs.commands.SetupArena;
 import org.kauazs.commands.SpawnSets;
+import org.kauazs.listeners.Controller;
 import org.kauazs.listeners.PlayerInteract;
 import org.kauazs.listeners.PlayerJoin;
 import org.kauazs.managers.Arena;
@@ -22,7 +23,7 @@ public final class Pvp extends JavaPlugin {
     @Setter @Getter
     private static ArenaSetupManager arenaManager;
 
-    public static HashMap<UUID, Arena> playersIn;
+
 
     @Setter @Getter
     private static HashMap<String, Arena> arenas;
@@ -39,13 +40,13 @@ public final class Pvp extends JavaPlugin {
         arenas.loadArenasFromConfig();
         setArenas(arenas.getArenas());
 
-        System.out.println(arenas.getArenas());
        getCommand("play").setExecutor(new PlayArena());
        getCommand("setup").setExecutor(new SetupArena());
        getCommand("set").setExecutor(new SpawnSets());
 
        getServer().getPluginManager().registerEvents(new PlayerInteract(), this);
        getServer().getPluginManager().registerEvents(new PlayerJoin(), this);
+       getServer().getPluginManager().registerEvents(new Controller(), this);
     }
 
     @Override

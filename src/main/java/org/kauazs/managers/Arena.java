@@ -1,9 +1,16 @@
 package org.kauazs.managers;
+import com.avaje.ebean.validation.NotNull;
 import lombok.Data;
+import lombok.Getter;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.kauazs.Pvp;
 import org.kauazs.arena.state.StartingArena;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,6 +26,9 @@ public class Arena {
     private ArenaStates arenaState;
     private List<UUID> players;
 
+    @Getter
+    private List<Block> blocks = new ArrayList<>();
+
     public void addPlayer(Player p) {
         if (players.size() > 2) {
             sendMessage(p, "&cEssa arena esta lotada");
@@ -30,12 +40,17 @@ public class Arena {
         }
 
         players.add(p.getUniqueId());
-        this.start();
 
+        if (players.size() >= 2) {
+            this.start();
+        }
     }
 
+    public void addBlock(Block block) {
+        blocks.add(block);
+    }
     public void removePlayer(Player p) {
-        if (!(players.contains(p))) return;
+        if (!(players.contains(p.getUniqueId()))) return;
         players.remove(p);
     }
 
@@ -52,4 +67,12 @@ public class Arena {
         }
     }
 
+    public void reset() {
+        blocks.forEach(block -> {
+            block.setType(Material.EMPTY_MAP, false);
+        });
+        this.players.clear();
+        this.blocks.clear();
+
+    }
 }

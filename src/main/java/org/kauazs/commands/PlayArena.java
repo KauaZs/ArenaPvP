@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 import static org.kauazs.utils.Colorize.sendMessage;
 import static org.kauazs.utils.LocationUtils.getFromLocation;
+import static org.kauazs.utils.PlayerUtils.inArena;
 
 public class PlayArena implements CommandExecutor {
 
@@ -22,11 +23,25 @@ public class PlayArena implements CommandExecutor {
             sender.sendMessage("Apenas players podem executar este comando");
         }
         Player p = (Player) sender;
-        Arena arena = new ArenaManager().findArenaEmpty();
+
+        if (inArena(p)) {
+            sendMessage(p, "&cVoce já está em uma arena!");
+            return true;
+        }
+
+        if (Pvp.getArenas().size() <= 0) {
+            sendMessage(p, "&cNenhuma arena foi encontrada");
+            return true;
+        }
+
+        Arena arenaEmpty = new ArenaManager().findArenaEmpty();
+        Arena arenaWithPlayers = new ArenaManager().findArenaWithPlayers();
+
+        Arena arena = arenaWithPlayers != null ? arenaWithPlayers : arenaEmpty;
         if (arena == null) {
             sendMessage(p, "&cNenhuma arena foi encontrada");
         }
-        Location pos1 = getFromLocation(p.getWorld(), arena.getSpawnOne());
+        Location pos1 = getFromLocation(arena.getSpawnOne());
         p.teleport(pos1);
 
         sendMessage(p, "&aEnviando voce para " + arena.getArenaId() + "...");

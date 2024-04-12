@@ -11,16 +11,13 @@ public class ArenaManager {
     private HashMap<String, Arena> arenas;
     public ArenaManager() {
         this.arenas = Pvp.getArenas();
-
-        if (this.arenas == null) {
-            Pvp.getInstance().getServer().broadcastMessage("Arenas nao encontradas.");
-        }
     }
 
     public Arena findArenaEmpty() {
+
         List<Arena> emptyArenas = new ArrayList<>();
         for(Arena arena : this.arenas.values()) {
-            if (arena.getPlayers().size() < 2) {
+            if (arena.getPlayers().size() < 2 && arena.getArenaState().equals(ArenaStates.WAITING)) {
                 emptyArenas.add(arena);
             }
         }
@@ -28,8 +25,23 @@ public class ArenaManager {
             Random random = new Random();
             return emptyArenas.get(random.nextInt(emptyArenas.size()));
         }
-        return null;
-    }
+            return null;
+        }
 
+
+    public Arena findArenaWithPlayers() {
+        List<Arena> arenasWithPlayers = new ArrayList<>();
+        for (Arena arena : this.arenas.values()) {
+            if (!arena.getPlayers().isEmpty() && arena.getArenaState().equals(ArenaStates.WAITING)) {
+                arenasWithPlayers.add(arena);
+            }
+        }
+        if (!arenasWithPlayers.isEmpty()) {
+            Random random = new Random();
+            return arenasWithPlayers.get(random.nextInt(arenasWithPlayers.size()));
+        } else {
+            return null;
+        }
+    }
 
 }

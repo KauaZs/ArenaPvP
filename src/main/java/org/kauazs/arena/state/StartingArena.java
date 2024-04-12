@@ -40,6 +40,7 @@ public class StartingArena {
                     PlayerUtils utils = new PlayerUtils(arena);
                     utils.giveItems();
 
+
                     arena.setArenaState(ArenaStates.BATTLE);
                     scheduler.cancelTask(taskId);
                 }

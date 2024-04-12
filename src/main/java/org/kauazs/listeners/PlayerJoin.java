@@ -26,7 +26,7 @@ public class PlayerJoin implements Listener {
 
         String spawn = config.getString("lobby.location");
         if (spawn == null) return;
-        Location local = LocationUtils.getFromLocation(player.getWorld(), spawn);
+        Location local = LocationUtils.getFromLocation(spawn);
 
         player.teleport(local);
         player.setGameMode(GameMode.ADVENTURE);

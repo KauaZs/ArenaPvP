@@ -1,8 +1,10 @@
 package org.kauazs.utils;
 
 import com.sun.tools.javac.jvm.Items;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -10,6 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.kauazs.Pvp;
 import org.kauazs.managers.Arena;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -23,9 +26,6 @@ public class PlayerUtils {
         this.arena = arena;
 
         this.TpToPositions();
-        for (UUID id : arena.getPlayers()) {
-            Pvp.getInstance().playersIn.put(id, arena);
-        }
     }
 
     public void giveItems() {
@@ -38,13 +38,22 @@ public class PlayerUtils {
             swordMeta.addEnchant(Enchantment.DAMAGE_ALL, 2, false);
             sword.setItemMeta(swordMeta);
 
+            ItemStack fishing = new ItemStack(Material.FISHING_ROD, 1);
             ItemStack apple = new ItemStack(Material.GOLDEN_APPLE, 6);
             ItemStack wood = new ItemStack(Material.WOOD, 64);
+            ItemStack bow = new ItemStack(Material.BOW, 1);
+            ItemStack arrow = new ItemStack(Material.ARROW, 16);
+            p.setGameMode(GameMode.SURVIVAL);
+            p.setHealth(20.0);
+            p.setFoodLevel(20);
 
             p.getInventory().clear();
 
             p.getInventory().setItem(0, sword);
+            p.getInventory().setItem(1, fishing);
             p.getInventory().setItem(7, wood);
+            p.getInventory().setItem(2, bow);
+            p.getInventory().setItem(10, arrow);
             p.getInventory().setItem(8, apple);
 
             p.getInventory().setHelmet(new ItemStack(Material.DIAMOND_HELMET));
@@ -54,22 +63,55 @@ public class PlayerUtils {
 
         }
     }
+    public static void resetPlayer(Player p) {
+        File file = new File(Pvp.getInstance().getDataFolder(), "config.yml");
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+        String spawn = config.getString("lobby.location");
+        if (spawn == null) {
+            p.teleport(p.getWorld().getSpawnLocation());
+        } else {
+            Location local = LocationUtils.getFromLocation(spawn);
+            p.teleport(local);
+        }
+        p.getInventory().clear();
+        p.setHealth(20.0);
+
+    }
+
     public void TpToPositions() {
         int count = 1;
         for (UUID id : arena.getPlayers()) {
             Player p = Pvp.getInstance().getServer().getPlayer(id);
             if (count <= 1) {
-                Location spawnOne = getFromLocation(p.getWorld(), arena.getSpawnOne());
+                Location spawnOne = getFromLocation(arena.getSpawnOne());
                 p.teleport(spawnOne);
             } else {
-                Location spawnTwo = getFromLocation(p.getWorld(), arena.getSpawnTwo());
+                Location spawnTwo = getFromLocation(arena.getSpawnTwo());
                 p.teleport(spawnTwo);
             }
             count++;
         }
     }
 
-    public boolean inArena(Player p) {
-        return Pvp.getInstance().playersIn.containsKey(p.getUniqueId());
+    public static boolean inArena(Player p) {
+        HashMap<String, Arena> arenas = Pvp.getArenaManager().getArenas();
+        for (Arena arena : arenas.values()) {
+            if (arena.getPlayers().contains(p.getUniqueId())) {
+                return true;
+            }
+        }
+        return false;
     }
+
+    public static Arena getArena(Player p) {
+        HashMap<String, Arena> arenas = Pvp.getArenaManager().getArenas();
+        for (Arena arena : arenas.values()) {
+            if (arena.getPlayers().contains(p.getUniqueId())) {
+                return arena;
+            }
+        }
+        return null;
+    }
+
 }

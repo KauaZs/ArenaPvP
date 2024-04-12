@@ -43,14 +43,20 @@ public class ArenaSetupManager {
         Integer id = setup.get(p);
         return id;
     }
+
+    public void removeSetup(Player p) {
+        setup.remove(p);
+
+    }
     public void addArenaPos(int ID, Location local, int opponentNumber) {
         Double posX = local.getX();
         Double posY = local.getY();
         Double posZ = local.getZ();
-        Vector posD = local.getDirection();
+        float yaw = local.getYaw();
+        float pitch = local.getPitch();
 
         String str = String.format("arenas.cage_%s.pos_%s", ID, opponentNumber);
-        String pos = String.format("%s, %s, %s, %s, %s", posX, posY, posZ, posD, local.getWorld());
+        String pos = String.format("%s, %s, %s, %s, %s, %s", posX, posY, posZ, yaw, pitch, local.getWorld().getName());
         config.set(str, pos);
 
         try {

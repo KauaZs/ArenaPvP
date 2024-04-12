@@ -23,7 +23,7 @@ public class SpawnSets implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(!(sender instanceof Player)) return true;
         if(args.length == 0) {
-            Colorize.sendMessage(sender, "&c/set [spawn|]");
+            Colorize.sendMessage(sender, "&c/set [spawn]");
         }
 
         Player player = (Player) sender;
