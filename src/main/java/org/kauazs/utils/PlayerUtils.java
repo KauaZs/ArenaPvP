@@ -75,10 +75,10 @@ public class PlayerUtils {
             p.teleport(local);
         }
 
-        p.getInventory().setHelmet(new ItemStack(Material.AIR, 1));
-        p.getInventory().setChestplate(new ItemStack(Material.AIR, 1));
-        p.getInventory().setLeggings(new ItemStack(Material.AIR, 1));
-        p.getInventory().setBoots(new ItemStack(Material.AIR, 1));
+        p.getInventory().setHelmet(new ItemStack(null, 1));
+        p.getInventory().setChestplate(new ItemStack(null, 1));
+        p.getInventory().setLeggings(new ItemStack(null, 1));
+        p.getInventory().setBoots(new ItemStack(null, 1));
         p.getInventory().clear();
         p.setHealth(20.0);
 
