@@ -33,15 +33,26 @@ public class StartingArena {
                             Player p = Pvp.getInstance().getServer().getPlayer(id);
                             p.sendTitle(format("&c" + counter), "");
                             p.playSound(p.getLocation(), Sound.NOTE_PLING, 100.0F, 0);
+                            arena.updateScoreboard("", format("Iniciando em &a" + counter + "s"));
                         }
                     }
 
-                } else {
+                } else if (arena.getArenaState().equals(ArenaStates.STARTING)) {
                     PlayerUtils utils = new PlayerUtils(arena);
                     utils.giveItems();
-
-
                     arena.setArenaState(ArenaStates.BATTLE);
+                } else if (arena.getArenaState().equals(ArenaStates.BATTLE)) {
+                    String lines = "";
+                    for (UUID id: arena.getPlayers()) {
+                        Player p = Pvp.getInstance().getServer().getPlayer(id);
+
+                        String health = String.format("%.2f", p.getHealth());
+                        String fixed = health.substring(0, Math.min(health.length(), 2));
+
+                        lines += format("&e" + p.getDisplayName() + ": &c❤ " + fixed);
+                    }
+                    arena.updateScoreboard("", lines);
+                } else if (arena.getArenaState().equals(ArenaStates.WAITING)) {
                     scheduler.cancelTask(taskId);
                 }
             }

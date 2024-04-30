@@ -1,5 +1,6 @@
 package org.kauazs.managers;
 import com.avaje.ebean.validation.NotNull;
+import fr.mrmicky.fastboard.FastBoard;
 import lombok.Data;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -10,9 +11,7 @@ import org.bukkit.entity.Player;
 import org.kauazs.Pvp;
 import org.kauazs.arena.state.StartingArena;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.kauazs.utils.Colorize.format;
 import static org.kauazs.utils.Colorize.sendMessage;
@@ -28,6 +27,7 @@ public class Arena {
 
     @Getter
     private List<Block> blocks = new ArrayList<>();
+    private Map<UUID, FastBoard> boards = new HashMap<>();
 
     public void addPlayer(Player p) {
         if (players.size() > 2) {
@@ -40,8 +40,8 @@ public class Arena {
         }
 
         players.add(p.getUniqueId());
-
-        if (players.size() >= 2) {
+        this.updateScoreboard("", "Aguardando players");
+        if (players.size() >= 1) {
             this.start();
         }
     }
@@ -73,6 +73,15 @@ public class Arena {
         });
         this.players.clear();
         this.blocks.clear();
+    }
 
+    public void updateScoreboard(String ...lines) {
+        for(UUID id: players) {
+            Player p = Pvp.getInstance().getServer().getPlayer(id);
+
+            FastBoard board = new FastBoard(p);
+            board.updateTitle(format("&e&lArena PvP"));
+            board.updateLines(lines);
+        }
     }
 }
