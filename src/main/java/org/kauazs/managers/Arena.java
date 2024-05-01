@@ -41,7 +41,7 @@ public class Arena {
 
         players.add(p.getUniqueId());
         this.updateScoreboard("", "Aguardando players");
-        if (players.size() >= 1) {
+        if (players.size() >= 2) {
             this.start();
         }
     }
@@ -79,9 +79,8 @@ public class Arena {
         for(UUID id: players) {
             Player p = Pvp.getInstance().getServer().getPlayer(id);
 
-            FastBoard board = new FastBoard(p);
-            board.updateTitle(format("&e&lArena PvP"));
-            board.updateLines(lines);
+            ScoreBoard scoreBoard = new ScoreBoard(p);
+            scoreBoard.updateScoreboard(lines);
         }
     }
 }

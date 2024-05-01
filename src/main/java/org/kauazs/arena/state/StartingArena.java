@@ -34,10 +34,9 @@ public class StartingArena {
                             Player p = Pvp.getInstance().getServer().getPlayer(id);
                             p.sendTitle(format("&c" + counter), "");
                             p.playSound(p.getLocation(), Sound.NOTE_PLING, 100.0F, 0);
-                            ScoreBoard scoreBoard = new ScoreBoard(p);
-                            scoreBoard.updateScoreboard("", format("Iniciando em &a" + counter + "s"));
                         }
                     }
+                    arena.updateScoreboard("", format("Iniciando em &a" + counter + "s"));
 
                 } else if (arena.getArenaState().equals(ArenaStates.STARTING)) {
                     PlayerUtils utils = new PlayerUtils(arena);
@@ -52,8 +51,7 @@ public class StartingArena {
                         String fixed = health.substring(0, Math.min(health.length(), 2));
 
                         lines += format("&e" + p.getDisplayName() + ": &c❤ " + fixed);
-                        ScoreBoard scoreBoard = new ScoreBoard(p);
-                        scoreBoard.updateScoreboard("", lines);
+                        arena.updateScoreboard("", lines);
                     }
 
                 } else if (arena.getArenaState().equals(ArenaStates.WAITING)) {
