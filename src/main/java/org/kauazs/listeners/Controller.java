@@ -12,11 +12,13 @@ import org.bukkit.event.block.BlockFormEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerBucketFillEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.kauazs.Pvp;
 import org.kauazs.arena.state.FinishedArena;
 import org.kauazs.managers.Arena;
 import org.kauazs.managers.ArenaStates;
+import org.kauazs.managers.ScoreBoard;
 
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -51,6 +53,7 @@ public class Controller implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player p = event.getPlayer();
+        new ScoreBoard(p).removeScoreboard();
         if (inArena(p)) {
             Arena arena = getArena(p);
             arena.removePlayer(p);
@@ -115,4 +118,5 @@ public class Controller implements Listener {
 
         }
     }
+
 }

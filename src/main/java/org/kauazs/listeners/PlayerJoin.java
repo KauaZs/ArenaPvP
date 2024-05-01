@@ -10,6 +10,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.kauazs.Pvp;
+import org.kauazs.managers.ScoreBoard;
 import org.kauazs.utils.Colorize;
 import org.kauazs.utils.LocationUtils;
 
@@ -22,6 +23,8 @@ public class PlayerJoin implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
+        new ScoreBoard(player).createScoreboard();
+
         event.setJoinMessage(ChatColor.GREEN + player.getName() + Colorize.format(" &eentrou no servidor"));
 
         String spawn = config.getString("lobby.location");

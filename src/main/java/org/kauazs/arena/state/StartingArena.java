@@ -9,6 +9,7 @@ import org.kauazs.Pvp;
 import org.kauazs.arena.ArenaState;
 import org.kauazs.managers.Arena;
 import org.kauazs.managers.ArenaStates;
+import org.kauazs.managers.ScoreBoard;
 import org.kauazs.utils.PlayerUtils;
 
 import java.util.UUID;
@@ -33,7 +34,8 @@ public class StartingArena {
                             Player p = Pvp.getInstance().getServer().getPlayer(id);
                             p.sendTitle(format("&c" + counter), "");
                             p.playSound(p.getLocation(), Sound.NOTE_PLING, 100.0F, 0);
-                            arena.updateScoreboard("", format("Iniciando em &a" + counter + "s"));
+                            ScoreBoard scoreBoard = new ScoreBoard(p);
+                            scoreBoard.updateScoreboard("", format("Iniciando em &a" + counter + "s"));
                         }
                     }
 
@@ -50,8 +52,10 @@ public class StartingArena {
                         String fixed = health.substring(0, Math.min(health.length(), 2));
 
                         lines += format("&e" + p.getDisplayName() + ": &c❤ " + fixed);
+                        ScoreBoard scoreBoard = new ScoreBoard(p);
+                        scoreBoard.updateScoreboard("", lines);
                     }
-                    arena.updateScoreboard("", lines);
+
                 } else if (arena.getArenaState().equals(ArenaStates.WAITING)) {
                     scheduler.cancelTask(taskId);
                 }
