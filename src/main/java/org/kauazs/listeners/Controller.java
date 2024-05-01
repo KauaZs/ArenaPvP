@@ -11,6 +11,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFormEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -116,6 +118,18 @@ public class Controller implements Listener {
             e.setCancelled(true);
             e.setFoodLevel(20);
 
+        }
+    }
+
+    @EventHandler
+    public void onInvetoryClick(InventoryClickEvent e) {
+        if (e.getWhoClicked() instanceof Player) {
+            Player p = ((Player) e.getWhoClicked()).getPlayer();
+            if (inArena(p)) {
+                if (e.getSlotType().equals(InventoryType.SlotType.ARMOR)) {
+                    e.setCancelled(true);
+                }
+            }
         }
     }
 
