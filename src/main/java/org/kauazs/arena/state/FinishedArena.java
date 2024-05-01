@@ -22,7 +22,6 @@ public class FinishedArena {
             Player p = Pvp.getInstance().getServer().getPlayer(id);
             resetPlayer(p);
 
-
             if (p.equals(winner)) {
                 p.sendTitle(format("&aVITÓRIA!!"), "");
                 p.playSound(p.getLocation(), Sound.CAT_MEOW, 100, 0);
