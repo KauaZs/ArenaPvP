@@ -101,6 +101,10 @@ public class Controller implements Listener {
 
         Player victim = (Player) event.getEntity();
         Player shooter = (Player) ((Arrow) event.getDamager()).getShooter();
+        if (victim.equals(shooter)) {
+            event.setCancelled(true);
+            return;
+        }
 
         String health = String.format("%.2f", victim.getHealth());
         String fixed = health.substring(0, Math.min(health.length(), 2));
@@ -117,7 +121,6 @@ public class Controller implements Listener {
         if (inArena(p)) {
             e.setCancelled(true);
             e.setFoodLevel(20);
-
         }
     }
 
