@@ -12,6 +12,8 @@ import org.kauazs.managers.ArenaStates;
 import org.kauazs.managers.ScoreBoard;
 import org.kauazs.utils.PlayerUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -43,16 +45,18 @@ public class StartingArena {
                     utils.giveItems();
                     arena.setArenaState(ArenaStates.BATTLE);
                 } else if (arena.getArenaState().equals(ArenaStates.BATTLE)) {
-                    String lines = "";
+                    List<String> lines = new ArrayList<>();
                     for (UUID id: arena.getPlayers()) {
                         Player p = Pvp.getInstance().getServer().getPlayer(id);
 
                         String health = String.format("%.2f", p.getHealth());
                         String fixed = health.substring(0, Math.min(health.length(), 2));
 
-                        lines += format("&e" + p.getDisplayName() + ": &c❤ " + fixed);
-                        arena.updateScoreboard("", lines);
+                        String displayName = p.getDisplayName().length() > 10 ? p.getDisplayName().substring(0, 10) : p.getDisplayName();
+                        lines.add(format("&e" + displayName + ": &c❤ " + fixed));
                     }
+
+                    arena.updateScoreboard(lines.toArray(new String[0]));
 
                 } else if (arena.getArenaState().equals(ArenaStates.WAITING)) {
                     scheduler.cancelTask(taskId);

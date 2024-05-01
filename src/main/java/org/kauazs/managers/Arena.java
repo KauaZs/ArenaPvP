@@ -68,11 +68,13 @@ public class Arena {
     }
 
     public void reset() {
-        blocks.forEach(block -> {
-            block.setType(Material.EMPTY_MAP, false);
-        });
+        if (blocks.size() >= 1) {
+            blocks.forEach(block -> {
+                block.setType(Material.EMPTY_MAP, false);
+            });
+            this.blocks.clear();
+        }
         this.players.clear();
-        this.blocks.clear();
     }
 
     public void updateScoreboard(String ...lines) {
